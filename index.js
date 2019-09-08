@@ -1,0 +1,143 @@
+'use strict';
+var express = require('express');
+var myParser = require('body-parser');
+var app = express();
+var sum;
+var dif;
+var mul;
+var div;
+
+app.use(myParser.urlencoded({
+	extended:true
+}));
+
+const form = 
+"<form method=\"post\" action=\"http://localhost:4000/num1/num2/operation\">"
+  +"Number One:<br>"
+  +"  <input type=\"number\" name=\"num1\" value=\"\">"
+  +"  <br>"
+  +"  Number Two:<br>"
+  +"  <input type=\"number\" name=\"num2\" value=\"\">"
+  +"  <br>"
+  +"  Operation:<br>"
+  +"  <input type=\"text\" name=\"operation\" value=\"\">"
+  +"  <br><br>"
+  +"  <input type=\"submit\" value=\"Submit\">"
+  +"</form>";
+  
+app.get("/num1/num2/operation", function (req, res) {
+  res.status(200).send(form);
+});
+
+var Mathematics = require('./math');
+
+app.post("/num1/num2/operation", function (req, res) {
+	let num1 = Number(req.body.num1);
+	let num2 = Number(req.body.num2);
+	let switchOperation = String(req.body.operation);
+
+	switch(switchOperation) {
+	  case 'sum':
+		// code block
+		sum = Mathematics.addition(num1, num2);
+		res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.write('<h1>Output</h1><br /><br />Sum of ' +num1+ ' and ' +num2+ ' : ' + sum);
+        res.end();	
+		break;
+	  case 'sub':
+		// code block
+		dif = Mathematics.subtraction(num1, num2);
+        res.write('<h1>Output</h1><br /><br />Subtraction of ' +num1+ ' and ' +num2+ ' : ' + dif);
+        res.end();			
+		break;
+	  case 'mul':
+		// code block
+		mul = Mathematics.multiplication(num1, num2);
+        res.write('<h1>Output</h1><br /><br />Multiplication of ' +num1+ ' and ' +num2+ ' : ' + mul);
+        res.end();			break;
+	  case 'div':
+		// code block
+		div = Mathematics.division(num1, num2);
+        res.write('<h1>Output</h1><br /><br />Division of ' +num1+ ' and ' +num2+ ' : ' + div);
+        res.end();			break;
+	  default:
+		// code block
+		res.status(200).send("Add, sub, mul and div");
+	}  
+});
+
+app.post("/", function(req, res) {
+	console.log(req.body);
+});
+
+var server = app.listen(4000, function () {
+	console.log('Node server is running...');
+});
+
+/*var qs = require('qs'); //https://github.com/visionmedia/node-querystring
+  function handle(req, res) {
+    var buf = '';
+    req.setEncoding('utf8');
+    req.on('data', function(chunk){
+      //assemble the request from distinct chunks into a single string
+      buf += chunk
+    });
+    req.on('end', function(){
+      //OK, you have a usable string request body, parse it and handle it
+      try {
+        var formData = qs.parse(buf);
+        //Yay, it parsed. Now you have your form data
+        //depending on your form's html, you might have formData.email, for example
+      } catch (err){
+        //oops, respond with an error          
+      }
+    });
+  }
+  */
+/*var express = require('express');
+var app = express();
+//const path = require('path');
+*/
+/*
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ 
+extended: false 
+}));
+
+app.use(express.urlencoded({
+extended : false
+}));
+console.log(__dirname);
+app.get('/', function(req, res) {
+    res.sendFile('login', 
+	{ 
+		root: __dirname 
+	});
+});
+app.post('/handler', function(req, res) {
+	console.log(req.body);
+	res.send(req.body);
+});
+
+var server = app.listen(4000, function () {
+	console.log('Node server is running...');
+});
+*/
+/*
+// define routes here..
+app.get('/', function(req, res) {
+	res.send('<html><body><h1>Hello Samar</h1></body></html>');
+});
+app.post('/submit', function(req, res) {
+	res.send('POST request');
+});
+app.put('/update', function(req, res) {
+	console.log("UPDATE request");
+});	
+app.delete('/delete', function(req, res) {
+	console.log("DELETE request");
+});
+var server = app.listen(4000, function () {
+	console.log('Node server is running...');
+});
+*/
