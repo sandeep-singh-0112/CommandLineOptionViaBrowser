@@ -66,7 +66,7 @@ app.post("/num1/num2/operation", function (req, res) {
 	}  
 });
 
-app.post("./", function(req, res) {
+app.post("/", function(req, res) {
 	console.log(req.body);
 });
 
